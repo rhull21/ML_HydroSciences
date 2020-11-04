@@ -18,6 +18,7 @@
         Support Vector Machines (SVM).
         K-Fold Cross-Validation
     * pytorch - up and coming DL techniques
+      * LSTM: We implemented a fast and flexible LSTM code that can utilize the highly-optimized NVIDIA CUDA® Deep Neural Network (cuDNN) library from the PyTorch deep learning platform.
     * Keras and TensorFlow - traditional DL techniques
 
 ### Notes
@@ -68,7 +69,16 @@
   2. https://pytorch.org/
     * Deep Learning
       * Tutorials: https://pytorch.org/tutorials/
-
+        * See script notes:
+          * We implemented a fast and flexible LSTM code that can utilize the highly-optimized NVIDIA CUDA® Deep Neural Network (cuDNN) library from the PyTorch deep learning platform.
+          * Loading Data:
+              * Convert from Numpy Array to torch.*Tensor
+              * Loading:  
+                * For images, packages such as Pillow, OpenCV are useful
+                * For audio, packages such as scipy and librosa
+                * For text, either raw Python or Cython based loading, or NLTK and SpaCy are useful
+                * For vision, torchvision
+              
   3. https://medium.com/towards-artificial-intelligence/machine-learning-algorithms-for-beginners-with-python-code-examples-ml-19c6afd60daa
     * Detailed
       * Preferred ML Algorithms
@@ -90,3 +100,15 @@
 
   6. MachineLearning in Python Course
     * https://www2.atmos.umd.edu/~xliang/aosc447/
+
+
+  7. PythonDataScienceHandbook, ML:
+    https://jakevdp.github.io/PythonDataScienceHandbook/05.00-machine-learning.html
+    * Intro:
+      * Supervised Learning:
+        * classification
+        * Regression
+      * Unsupervised Learning:
+        * Clustering
+        * Dimensionality Reduction
+    * Scikit-Learn
