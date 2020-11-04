@@ -337,11 +337,48 @@ water table depth in agricultural areas
 Adjusted Forecasting Window Scale: Application
 in Daily Streamflow Simulation
 
-* Further Reading:
-  * General Approach; Jiang et al, 'Improving AI system awareness of Geoscience Knowledge: Symbiotic Integration of PHysical Approaches and Deep Learning'
-  * HydroNets; Moshe et al, HydroNets: Leveraging River Structure for Hydrologic Modeling.
-  * Guiding Questions; Ebeerrtt--Uphoffff, Thoughtfully Using Artificial Intelligence in Earth Science
+9. General Approach; Jiang et al, 'Improving AI system awareness of Geoscience Knowledge: Symbiotic Integration of PHysical Approaches and Deep Learning'
+  * A nice overview of how to apply AI in simulating and predicting run-off
+  * provides a framework to apply a specially structured design for AI to memorize physical rules behind system dynamics
+  * Shows the model can be applied in other contexts
 
+10. HydroNets; Moshe et al, HydroNets: Leveraging River Structure for Hydrologic Modeling.
+  * Using basin structure to simulate and predict streamflow
+
+11. Guiding Questions; Ebeerrtt--Uphoffff, Thoughtfully Using Artificial Intelligence in Earth Science
+  * An overview of AI in earth science
+
+12. 2020. Feng. Enhancing streamflow forecast and extracting insights using long-short term
+memory networks with data integration at continental scales
+  * Recommended by Chaopeng Shen
+  * Abstract:
+    * Integrated recent discharge observations to improve streamflow forecasts.
+    * Procedure called 'data integration', which uses a CNN (convolutional network) to add various types of observations together.
+    * Integrating moving average discharge, discharge form the last few days, or even average discharge from previous month
+      improves predictions of daily forecasts
+    * DI improves LSTM in all domains acept for super-arid flashy flow, especially in groundwater-dominated or surface water storage areas
+
+  * Intro:
+    * DA (data assimilation), a previous similar approach that uses recent observations to update process model internal states, to better forecast future variables and/or update model structures or parameters.
+    * Although DL has been used in some time-series applications, there is significant potential.
+    * Specifically, ability to flexibly absorb recent observations is unexplored
+    * In general, the daily forecast prediction approach might best be served by traditional regression models
+    * The question is how to incorporate other types of data, like snapshots and moving average, that may represent important facets of system state but are not integrated into the larger process.
+    * This work uses an LSTM method to assimilate various types of discharge observations via DI (data inegration)
+      * DI - integrates the data injection and prediction steps into one step, altering the internal state of the LSTM and improving the prediction of future prediction variables (but does not predict unobserved variables)
+      * uses snapshot, moving average, and regularly spaced stream flow observations in LSTM
+
+  * LSTM model with Data Integration:
+    * We implemented a fast and flexible LSTM code that can utilize the highly-optimized NVIDIA CUDA® Deep Neural Network (cuDNN) library from the PyTorch deep learning platform.
+    * To reduce overfitting, 𝓓 applies constant dropout masks
+(Boolean matrices to set some weights to 0) to the recurrent connections following Gal & Ghahramani
+(2015). We did not apply dropout to 𝒈 in equation 6 as we did in previous work (Fang et al., 2018), as
+customization at this level in the code is not well supported by cuDNN.
+
+  * Further Reading:
+    * Streamflow Prediction:  (Hu et al., 2018; Kratzert et al., 2018; Kratzert, Klotz, et al., 2019; Le et al., 2019; Sudriani et al., 2019)
+
+13. Convergence Accelerator Proposal:
 
 ### Summary - Further Reading:
 * Further reading:

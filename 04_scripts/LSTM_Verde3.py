@@ -123,7 +123,9 @@ def lstm_run(dfra, v_name, nds, epc, b_s, y_in=7, z_in=3, look_b=1, opt='adam'):
     epc = number of epochs
     b_s = batch size, the number of samples to use in model fitting
 
-    returns the rmse of testScore and trainScore, and the history of the run
+    returns the rmse of testScore and trainScore
+        the history of the run
+        4 figures
     """
     # # 2.a normalize data [0 to 1]
     # # # 2.a.1 set random seed
@@ -159,16 +161,21 @@ def lstm_run(dfra, v_name, nds, epc, b_s, y_in=7, z_in=3, look_b=1, opt='adam'):
     model.add(Dense(1))
     model.compile(loss='mean_squared_error', optimizer=opt)
 
+    print('the parameters: look_b | epc | b_s | nds')
+    print(look_b, epc, b_s, nds, sep=' | ')
+
+
     # 4a. train model and evaluate against training
     history = model.fit(trainX, trainY, epochs=epc, batch_size=b_s, verbose=2)
 
     # summarize history for loss
-    plt.plot(history.history['loss'])
-    plt.title('model loss')
-    plt.ylabel('loss')
-    plt.xlabel('epoch')
-    plt.legend(['train', 'test'], loc='upper left')
-    plt.show()
+    fig1, ax1 = plt.subplots()
+    ax1.plot(history.history['loss'])
+    ax1.set_title('model loss')
+    ax1.set_ylabel('loss')
+    ax1.set_xlabel('epoch')
+    fig1.legend(['train', 'test'], loc='upper left')
+    fig1.show()
 
     # 4b. make predictions
     trainPredict = model.predict(trainX)
@@ -199,39 +206,39 @@ def lstm_run(dfra, v_name, nds, epc, b_s, y_in=7, z_in=3, look_b=1, opt='adam'):
     testPredictPlot[:, :] = np.nan
     testPredictPlot[len(trainPredict)+(look_back*2)+1:len(dataset)-1, :] = testPredict
     # plot baseline and predictions
-    fig, ax = plt.subplots()
-    ax.plot(datadf_sub.index.values, scaler.inverse_transform(dataset))
-    ax.plot(datadf_sub.index.values, trainPredictPlot)
-    ax.plot(datadf_sub.index.values, testPredictPlot)
-    ax.set_yscale('log')
-    ax.set_xlabel('date')
-    ax.set_ylabel('flow, cfs')
-    ax.set_title('Real, Train (orange), and Test (blue) data')
-    plt.show()
+    fig2, ax2 = plt.subplots()
+    ax2.plot(datadf_sub.index.values, scaler.inverse_transform(dataset))
+    ax2.plot(datadf_sub.index.values, trainPredictPlot)
+    ax2.plot(datadf_sub.index.values, testPredictPlot)
+    ax2.set_yscale('log')
+    ax2.set_xlabel('date')
+    ax2.set_ylabel('flow, cfs')
+    ax2.set_title('Real, Train (orange), and Test (blue) data')
+    fig2.show()
 
     # plot zoom train
-    fig, ax = plt.subplots()
-    ax.plot(datadf_sub.index.values, scaler.inverse_transform(dataset), linewidth=3)
-    ax.plot(datadf_sub.index.values, trainPredictPlot, alpha=0.7, color='orange')
-    ax.set_yscale('log')
-    ax.set_xlabel('date')
-    ax.set_ylabel('flow, cfs')
-    ax.set_xlim(datadf_sub.index.values[look_back], datadf_sub.index.values[len(trainPredict)+look_back])
-    ax.set_title('Real and Train (orange) data')
-    plt.show()
+    fig3, ax3 = plt.subplots()
+    ax3.plot(datadf_sub.index.values, scaler.inverse_transform(dataset), linewidth=3)
+    ax3.plot(datadf_sub.index.values, trainPredictPlot, alpha=0.7, color='orange')
+    ax3.set_yscale('log')
+    ax3.set_xlabel('date')
+    ax3.set_ylabel('flow, cfs')
+    ax3.set_xlim(datadf_sub.index.values[look_back], datadf_sub.index.values[len(trainPredict)+look_back])
+    ax3.set_title('Real and Train (orange) data')
+    fig3.show()
 
     # plot zoom test
-    fig, ax = plt.subplots()
-    ax.plot(datadf_sub.index.values, scaler.inverse_transform(dataset), linewidth=3)
-    ax.plot(datadf_sub.index.values, testPredictPlot, alpha=0.7, color='green')
-    ax.set_yscale('log')
-    ax.set_xlabel('date')
-    ax.set_ylabel('flow, cfs')
-    ax.set_xlim(datadf_sub.index.values[len(trainPredict)+(look_back*2)+1],datadf_sub.index.values[len(dataset)-1])
-    ax.set_title('Real and Test (green) data')
-    plt.show()
+    fig4, ax4 = plt.subplots()
+    ax4.plot(datadf_sub.index.values, scaler.inverse_transform(dataset), linewidth=3)
+    ax4.plot(datadf_sub.index.values, testPredictPlot, alpha=0.7, color='green')
+    ax4.set_yscale('log')
+    ax4.set_xlabel('date')
+    ax4.set_ylabel('flow, cfs')
+    ax4.set_xlim(datadf_sub.index.values[len(trainPredict)+(look_back*2)+1],datadf_sub.index.values[len(dataset)-1])
+    ax4.set_title('Real and Test (green) data')
+    fig4.show()
 
-    return trainScore, testScore, history
+    return trainScore, testScore, history, fig1, fig2, fig3, fig4
 
 # %%
 # 1. Prepare Data
@@ -348,7 +355,7 @@ optimizer = 'adam'
 batch_size = 72
 epochs = 10
 
-out1, out2, out3 = lstm_run(datadf_sub, var_name, nodes, epochs, batch_size)
+out1, out2, out3, fig1, fig2, fig3, fig4 = lstm_run(datadf_sub, var_name, nodes, epochs, batch_size)
 
 # %%
 # 11. Complicated Run: Utilizing different 
@@ -356,35 +363,53 @@ out1, out2, out3 = lstm_run(datadf_sub, var_name, nodes, epochs, batch_size)
 # # for different single variable regression
 # # look_back from 1 to 12
 
+# global variables for this forloop, including maxs for forlooping
 var_name = "Q"
 dfin = datadf_sub
-nodes = 64
 optimizer = 'adam'
-batch_size = 72
-epochs = 10
+nodes_max = 64
+batch_size_max = 72
+epochs_max = 10
 
+# create a dataframe with the variables needed to collect multiple runs of the lstm model
 titleList = ['var_name', 'nodes', 'optimizer', 'epochs', 'batch_size', 'look_back']
-inputList = []
-trainScoreList = [] 
-testScoreList = []
-historyList = []
-timeList = []
+df_reg = pd.DataFrame(columns=['titles', 'inputs', 'trainScore', 'testScore', 'history', 'time', 'figs'])
 
-for look_back in range(1,12):
-    inputList.append([var_name, nodes, optimizer, epochs, batch_size, look_back])
-    start_time = time.time()
-    trainSc, testSc, hist = lstm_run(dfin, var_name, nodes, epochs, batch_size, look_b=look_back)
-    trainScoreList.append(trainSc)
-    testScoreList.append(testSc)
-    historyList.append(hist)
-    timeList.append(time.time() - start_time)
-
+# different subsets
+for look_back in range(1,13):
+    # different nodal arrangements
+    for nodes in range(4, nodes_max + 1, 8):
+        # different batch sizes
+        for batch_size in range(12, batch_size_max+1, 12):
+            # different epochs
+            for epochs in range(2, epochs_max+1, 2):
+                # add a new line to the dataframe
+                df_reg = df_reg.append(pd.Series(), ignore_index=True)
+                # add the names (titles) of the parameters (inputs) used
+                df_reg['titles'].iloc[-1] = titleList
+                # add the parameter values (inputs) used
+                df_reg['inputs'].iloc[-1] = [var_name, nodes, optimizer, epochs, batch_size, look_back]
+                # start timer
+                start_time = time.time()
+                # run lstm model
+                trainSc, testSc, hist, fig1, fig2, fig3, fig4 = lstm_run(dfin, var_name, nodes, epochs, batch_size, look_b=look_back)
+                # stop timer and add time to run to df
+                df_reg['time'].iloc[-1] = time.time() - start_time
+                # add model results (scores, history, and figures) to the df
+                df_reg['trainScore'].iloc[-1] = trainSc
+                df_reg['testScore'].iloc[-1] = testSc
+                df_reg['history'].iloc[-1] = hist
+                df_reg['figs'].iloc[-1] = [fig1, fig2, fig3, fig4]
 
 # Additional Tasks: 
-    # 1) do multi-pronged for-loop varying look_back, as well as nodes, optimizer, epochs, etc..
-    # 2) return array results to show 'health' of the response
     # 3) Compare with SVR and MLP results
 
 
+# %%
+for figure in range(0, df_reg.shape[0]):
+    figout = df_reg['figs'].iloc[figure][0]
+    print(id(figout))
+    print(plt.gcf())
+    plt.show()
 
 # %%
