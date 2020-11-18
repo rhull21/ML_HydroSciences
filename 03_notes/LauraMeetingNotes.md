@@ -140,7 +140,7 @@ Goals:
   * Future Work:
     * Hackathon (fup on Abe's remarks)
     * comparing results to similar 'traditional' ML methods
-  * Google Drive:
+  * Google Drive: - ongoing
     * Doc
     * pdfs
     * jpg
@@ -168,3 +168,82 @@ Goals:
         * Access Repo
         * Paper from Patricia
         * Read about Upper Colorado River
+
+## Laura Meeting 11/12/20
+  * minutes / notes
+    1. Google Drive: - ONGOING, finish setting up
+      * Doc
+      * pdfs
+      * jpg
+      * collab scripts
+    2. Big Files run on GPU
+      * AUHPC
+        * Go to Google Doc for UA_HPC_Notes - COMPLETE
+        * Launch and interactive Python session - COMPLETE
+        * Run script as written - COMPLETE
+        * Continue updating script (from last week) - ONGOING
+           * different normalizing approaches - ONGOING
+           * compare to Linear Regression, SVR, and MLP methods - ONGOING
+        * Update as you go the google doc - COMPLETE
+        * Abe could help, so could Louise
+          * How do we get charged running on GPUs
+          * Submit a job for 20 minutes (no more than an hr or 2)
+
+    3. Google Collab
+        * What is the computing power? - COMPLETE
+
+    4. PyTorch v TensorFlow
+      * https://realpython.com/pytorch-vs-tensorflow/
+      * Hack-a-thon
+
+    5. Patricia:
+      * Nonlinear embedding to figure out when streamflow is predictable and when it isn't predictable
+      * Chaos Butterfly
+        * Time-linear embedding putting it into phase space
+        * Can ML capture transitions between hydrologic regimes?
+      * ML approaches on upper colorado river
+        * Contact Patricia
+          * Access Repo
+          * Paper from Patricia
+          * Read about Upper Colorado River
+
+  * Action items
+    1. Finish setting up Google Drive.
+      * Doc
+      * pdfs
+      * jpg
+      * collab scripts
+      * Fix git issues with git pull
+
+    2. Big files on GPUs
+      * work on ML scripts in colab
+      * Run simple pytorch script on HPC
+      * Run complicated pytorch scripts on HPC
+
+    3. Coding Background:
+      * Hack-a-Thon (see Abe notes)
+        * Google Collab tutorial
+        * June 22/23 slides
+      * Look into NUMBA (taking advantages of GPU for non-ML applications)
+      * Take a look into Patricia's scripts
+        * install R
+        * What signal-processing (via wavelets) was utilized?
+        * What time-lags did she use?
+        * How many time-lags (dimensions) did she use?
+
+    4. Research Background:
+      * Read more about Upper Colorado
+      * Finish the Non Linear Embedding R. article
+      * To Research Question:
+        * Different modes exist in dynamic watersheds. In an age of climate change, the dynamics are changing
+        * How can we use ML to help us 'extract' not only if trends are predictable/unpredictable 'extract' when we are in one 'epoch' of predictability vs. another. And transitioning from one to another?
+
+    5. Products:
+      * Applications of ML to NLE research question?
+        * ML works best on ample and noisy data .. so maybe eschewing noise removal
+        * running unsupervised learning of trends in phase space... hmmm...
+      * Get a working PyTorch / NUMBA gpu script working on UA_HPC
+      * Plot Verde River in phase space
+        * Might require arbitrary decisions about dimensions and lags
+        * utilize patricia's code
+      * Predictability / Unpredictability. (?)
