@@ -379,6 +379,266 @@ customization at this level in the code is not well supported by cuDNN.
     * Streamflow Prediction:  (Hu et al., 2018; Kratzert et al., 2018; Kratzert, Klotz, et al., 2019; Le et al., 2019; Sudriani et al., 2019)
 
 13. Convergence Accelerator Proposal:
+  * Intro:
+    * integrated team to make groundwater data accessible and improve hydrologic forecasting with ML
+    * HydroFrame-ML will be a platform to share model emulators, reduced order models, data products, and ML accelerated PDE solutions (or ML-models)
+    * upshot - help gw models fill gaps in groundater data
+    * collaborators: federal water infrastructure managers, climate and earth system modelers
+    * issues: these collaborators don't have a 'computationally feasible' way to incorporate into workflows
+
+  * why gwater? groundwater is critical to predicting responses of global extremes
+
+  * gwater is usually excluded or simplified in global simulations due to data and modeling limitations (see fig)
+    * even with advances in PDE-based approaches, this is too complicated to be utilized in conjunction with other efforts
+
+  * ML assistance with PDE-simulations and observations can help, but there are issues with subsurface usage of ML
+    1. the state (groundwater storage) and physical processes (gwater flow) are not easily observed
+    2. current PDE simulations and subsurface observations are not set up for ML access and Analysis
+      * Need to reformat both for training
+    3. complicated (spatially distributed) storage fluxes, whereas stream forecasting is predicting at a point
+      * check This
+    4. hydrologists and planners are not trained in ML, so transparency
+
+  * Solution: HydroFrame ML - a kind of 'clearning house' of data, model, and ML
+    * data-centric, model-centric, and user-centric features
+    * improve hydrologic forecasting by addressing blind spot in current approaches
+
+  * Deliverables:
+    1. National data platform (FAIR), Data Mining, API (back-end)
+      * An API will drive data mining of simulation data that can be 'ingested' into ML routines
+    2. User Portal for building, evaluating, sharing ML-groundwater models: (front-end)
+      * training and model interpretation to get around 'black-box' iness of solutions for users
+        * MLFlow
+    3. Improved Hydrologic Forecasts (applied solutions)
+      * Make beter predictions
+    4. Educational Activities (broadening participation)
+      * STEM outreach
+
+
+  * More on Back-end Development:
+    * Making Groundwater DAta FAIR and ML ready
+    * Areas:
+      1. Facilitating efficient access to big data from multiple access points
+        * custom C++ application needed (not python) to access data
+        * something about a new server with ML applications
+      2. developing FAIR metadata standards and protocols for gwater data
+        * CF-compliant metadata standards and APIs to interface with existing libraries (Numpy, SciKit, Pangeo, Xarray)
+        * What is CF?
+      3. providing standardized access to existing groundwater and hydrogeology observations that are distributed and heterogeneous (data discoverability)
+        * workflows for sharing and make datasets discoverable
+        * Dockers, reanalyzed, data store, etc..
+
+  * Tasks:
+    * What if we think bigger, and use ML to fill data-sparse domains?
+    * Change the data for implementation in ML data training
+    * I'm not sure I get the streamflow v spatially distributed dichotomy. ML can definitely handle multi-dimensional learning, and in fact is great at doing things with photos and with videos, for e.g.
+    * Could be a part of STEM outreach!
+      * I feel like finding new collaborators should be a part of your outreach objective. Build a field, will they come?
+    * From Table (1):
+      * review datasets and developing FAIR metadata standards
+      * Developing flexible, interoperable, itelligent APIs, linking data to existing ML frameworks
+      * Building and testing infrastructure for efficient access to large datasets
+      * tiered staged data access and archiving
+
+  * Further Questions:
+    * What do you mean by model emulator? reduced order model? and ML- Accelerated PDE?
+    * CyVerse?
+    * API design, cool. But the way in which the API mines the groundwater simulation data and puts it into ML routines
+      is enormously confusing
+    * What is ML Flow?
+    * What means federating data?
+    * Which deliverable uses the 'emulators'
+    * I feel like the opportunities for me (as a hydrologiest) are probably within the 'backend' development
+    * Read links [20-22]
+    * What exactly are the data being trained on Like are these models of multiple dimensions and directions?
+    * What does CF mean?
+
+
+  * Further Reading:
+    * Sahoo, S., et al., Machine learning algorithms for modeling groundwater level changes in agricultural regions of the U.S. Water Resources Research, 2017. 53(5): p. 3878-3895.
+    * Sun, A.Y., et al., Combining Physically Based Modeling and Deep Learning for Fusing GRACE Satellite Data: Can We Learn From Mismatch? Water Resources Research, 2019. 55(2): p. 1179-1195.
+    * Amaranto, A., et al., A Spatially Enhanced Data-Driven Multimodel to Improve Semiseasonal Groundwater Forecasts in the High Plains Aquifer, USA. Water Resources Research, 2019. 55(7): p. 5941-5961.
+
+
+14. Convolutional Networks for Visual Recognition:
+  * https://cs231n.github.io/optimization-2/
+  * Summary: Developing an intuitive understanding of backpropogation, which is a way of computing gradients of expressive through recursive application of the chain rule
+    * a rarely developed view of backpropagation as backward flow in real-valued circuits
+    * Notice that backpropagation is a beautifully local process. Every gate in a circuit diagram gets some inputs and can right away compute two things: 1. its output value and 2. the local gradient of its output with respect to its inputs. Notice that the gates can do this completely independently without being aware of any of the details of the full circuit that they are embedded in. However, once the forward pass is over, during backpropagation the gate will eventually learn about the gradient of its output value on the final output of the entire circuit. Chain rule says that the gate should take that gradient and multiply it into every gradient it normally computes for all of its inputs.
+    * Backpropagation can thus be thought of as gates communicating to each other (through the gradient signal) whether they want their outputs to increase or decrease (and how strongly), so as to make the final output value higher.
+
+15. Balaji Rajagopalan: A Nonlinear Dynamical Systems‐Based Modeling Approach for Stochastic Simulation of Streamflow and Understanding Predictability
+  * Key Points:
+    * The dynamics of multidecadal streamflow signal from long paleo and observed record uncovered by reocnstructing the phase space
+    * Local Lyapunov Exponents are used to understand temporal variability of predictability potentially enabling predictabiility-based management
+    * Streamflow simulated by block resampling of trajectories from neighbors in phase space, with skills consistent with Predictability
+      * NOTE: This last thought shows: Forecasting changes of state (streamflow) as a consequence of historical state evolution (i.e. the trajectories of streamflow evolution) can be better than simple regression techniques, and can show us when a state evolves in a predictable way, and when it doesn't.
+
+  * Abstract:
+    * Novel modeling approach applied to historical (measured) and paleo (Reconstructed) streamflows in the Colorado River
+    * Insight 1: Flows had 'epochal' variations in predictability
+    * Insight 2: The Local Lyaponov Exponent quantifies the variance of flow signal and climate indices to predict flow during these different epochs
+    * Insight 3: 'Blind' flow projections during 'high-predictable' epochs were good, and flow projections during 'low-predictable' epochs were poor
+    * Conclusion: Assessing the skill of this modeling technique could shift water management paradigms
+    * other jibber jabber:
+      * novel 'time-series modeling approach' is borrowed from those of 'nonlinear dynamical systems'.
+      * the goal is to use these 'non-linear' assumptions to understand when river flow is predictability (and also their 'dynamics'), so as to produce good projections.
+      * Understanding when flow is predictable (time-varying predictability) comes from understanding the divergence of trajectories in phase space with time. This is done using 'local lyaunov exponents'.
+
+  * Introduction
+    * Dichotomies in Models:
+      1. Parametric / linear models = traditional for time series (e.g autoregressive)
+        * simulations reproduce distributional statistics like mean, standard deviation, and correlations
+        * DO NOT reproduce non-gaussian and non-stationary features
+      2. Non parametric models = nontraditional timeseries models (e.g. K-nearest neighbor (K-NN) bootstrap, and kernal density)
+        * simulations reproduce non-gaussian Features
+        * DO NOT model low-frequency variability
+      3. An alternative to both is to use 'wavelet spectra' as a way to model
+        a) dominant periodicities and
+        b) capture nonstationarity.
+     * A nonlinear dynamical system-based time series modeling approach:
+      * reconstruct underlying dynamics (referred to as 'phase space') for prediction and simulation
+      * within the phase space, the dynamics evolve
+      * The phase space is constructed from observed time series (long time series needed)
+      * The state of the system at any point is mapped on to the phase space, and using local maps short term forecasts can be made.
+      * The skill of the forecast depends on how predictable system is according to the phase state.
+        * The 'predictability' is ascertained through Local Lyapunov Exponents (LLEs)
+      * Forecasts can outperform traditional approaches
+    * Previous applications of nonlinear appraoches
+      * salt lake WLs due to El Nino. Easy due to noise-less time serires
+      * for noisy time series, use noise reduction, ex wavelet analysis
+        * In this paper, a blend of K-NN block simulation through embedding of system recovered from wavelet reconstructed signal of time series
+          * requires time delay (sigma) and embedding dimension (D)
+          * see methods
+      * identify time series epochs through LEE
+
+  * Questions:
+    * What is phase space?
+      * https://en.wikipedia.org/wiki/Phase_space
+        * a space in which all posible states of a system are represented, with each possible state corresponding to one unique point in the phase space.
+        * every degree of freedom (parameter) of a system is represented on an axis of a dimensional space.
+          * 1-D system = phase line (2 axis graph), 2-D system - phase plane (3-axis graph), etc...
+          * for every state of the system (allowed combo of values of paarameters), there is a point on the phase space
+          * the systems evolution over time traces a path (phase space trajectory)
+            * trajectory = set of states compatible with a particular initial condition
+          * complex systems can have 'any number of parameters'
+    * What are Local Lyapunov Exponents, and how do they tell us if flow is predictable or not?
+      * https://en.wikipedia.org/wiki/Lyapunov_exponent#:~:text=also%20been%20explored.-,Local%20Lyapunov%20exponent,x0%20in%20phase%20space.&text=These%20eigenvalues%20are%20also%20called%20local%20Lyapunov%20exponents.
+        * The Lyapunov exponent (LE) of a dynamic (changing) system characterizes the 'rate of separation of infinitesimally close trajectories' [as defined in phasespace]
+        * The rate of separation can be different for different orientations of the separation vector.
+          * So there is a 'spectrum' of Lyaunov exponents (= dimensions (parameters) of phase space)
+          * Conventions: We often refer to the Maximum (MLE) because it is most deterministic.
+            * A positive MLE = chaotic, unpredictable system
+            * < 0, or small suggests high predictability
+        * In a way, we can think of this component as representing the predictability of a system.
+        * The Local Lyapunov Exponent (LLE)
+          * The global exponent gives a measure of the total predictability of the system.
+            * But the LLE estimates the predictability around a point in phase space.
+              * Done with eigenvalues in the Jacobian matrix
+    * What is block resampling?
+    * What are 'trajectories' from 'neighbors' in 'phase space'?
+      * https://en.wikipedia.org/wiki/Phase_space
+        * from above ^ we can assume trajectories to be the path of evolution of the phase space
+        * neighbors may be the collection of 'states' (points) in phase space most similar to the observed state from which a prediction needs to be made
+    * What is a wavelet spectral analysis?
+      * Summary: wavelet analysis is a method for reducing noise. This is to smooth the Co River to obtain the signal present in the flow series.f
+      * https://www.sciencedirect.com/science/article/abs/pii/S0165993614001757#:~:text=Wavelet%20Transform%20(WT)%20is%20one,to%20its%20scale%20%5B1%5D.
+        * Wavelet transforms CAN BE for:
+          * noise removal and resolution enhancement.
+          * data compression and chemometrics modeling.
+          * outperform traditional signal-processing methods.
+        * wavelets are a topic of pure math, but have shown great promise in signal-Processing
+          * unprecendented success in asymptotic optimality, spatial adaptivity, and computational efficiency.
+      * Nowak et al, 2011 - https://www.sciencedirect.com/science/article/abs/pii/S002216941100607X?via%3Dihub 'Wavelet Auto-Regressive Method (WARM) for multi-site streamflow simulation of data with non-stationary spectra'
+        * abstract: using wavelet spectra to capture nonstationarity
+          * Geophysical data (like streamflow) show 'quasi-periodic' and 'non-stationary' variability drive by climate features
+          * traditional stochastic methods fail to capture trends due to this non-stationarity so...
+          * we need methods that can account for time evolution of system
+          * WARM (Wavelet-based Auto Regression Modeling)
+            * i) reconstruction of wavelet transform of a timeseries into periods
+            * ii) time-varying 'power' and component scaling via SAWP (scale averaged wavelet power)
+              * ^NOTE: So is this like a data transform similar to 'normalizing' or 'scaling' data?
+              * An improvement upon Kwon et al
+            * iii) AR model fit to scaled components
+            * iv) simulations (training) using AR model, rescale, and recombine to simulate original time series.
+        * introduction:
+          * interesting, the impetus for this research is not prediction, but producing synthetic streamflow traces in history.
+          * traditional (stochastic) methods have failed to capture quasi-periodic climate forcings (like El Nino) and the presence of wet/dry epochs
+          * Parametric and non-parametric (auto regressive moving average, K-nearest neighbor) can show historical dependences, but are poor at capturing 'data spectrum' and statistics from wet v dry periods.
+          * The inability to reproduce spectral properties can yield great harm to predictions
+          * Traditional WARM reproduces distributional data (mean, variance, skew, pdf) as well as the 'global spectrum of observed data'
+            * But traditional WARM cannot capture 'non-stationary' spectral characteristics
+            * New WARM (this Paper) can do non-stationary and multiple sites
+      * Kwon et al 2007
+        * using wavelet spectra to model dominant periodicities
+          * See Nowak et al for more comprehensive look at this idea
+
+    * What is reconstructions across bands to obtain signal time series?
+    * what are 'spectral characteristics'?
+      * I feel like this means 'the wide spectrum of characteristics that can be seen in a dynamic, non-stationary system'
+    * What is D-dimensional space?
+    * What are sigma lags?
+    * What are ensembles of projections?
+    * What is 'the current vector in phase space'?
+    * What are stochastic processes?
+      * https://towardsdatascience.com/stationarity-in-time-series-analysis-90c94f27322
+      * A real stochastic process is a family of real random variables 𝑿={xᵢ(ω); i∈T}, all defined on the same probability space (Ω, F, P). (conventional statistics)
+    * Stationary, Non-Stationary, periodic, quasi-periodic, gaussian, non-guassian processes
+      * Refs:
+        * https://www.investopedia.com/articles/trading/07/stationary.asp#:~:text=Data%20points%20are%20often%20non,cannot%20be%20modeled%20or%20forecasted.
+        * https://www.quora.com/What-is-non-stationary-data
+        * https://towardsdatascience.com/stationarity-in-time-series-analysis-90c94f27322
+        * https://towardsdatascience.com/detecting-stationarity-in-time-series-data-d29e0a21e638
+        * https://otexts.com/fpp2/stationarity.html
+        * https://towardsdatascience.com/why-data-scientists-love-gaussian-6e7a7b726859
+        * https://www.quora.com/What-is-an-example-of-a-dataset-with-a-non-Gaussian-distribtion
+        * Quasiperiodicity
+      * Stationary v Non-Stationary Data
+        * Stationary data:
+          * **In the most intuitive sense, stationarity means that the statistical properties of a process generating a time series do not change over time.**
+            * This does not mean that the system doesn't change over time, but that the way it changes doesn't change. (2nd derivative)
+          * Data dominated by processes that do not change through time. means, variances, and covariances are not a function of time
+        * Non-Stationary Data:
+          * data that have means, variances, and covariances that change over time.
+            Ex: trends, cycles, or random walks
+          * heuristics for evaluation non-stationarity:
+            * Seasonality
+            * Trends and changing levels
+            * increasing variance
+        * NOTE 1: typically we have sought to turn non-stationary time series into stationary data in order to make meaningful forecasts.
+          * 'The convolution of a time variate [non-stationarity] will make your information [model results] less decipherable. However, if you can remove and isolate it [the effect of the time-variation], you can predict with great accuracy by making it stationary and de-stationary..ing it after the predictions.'
+        * NOTE 2: Some cases of stationarity and non-stationarity can be confusing
+          * A time series with cyclic behavior (but with no trend or seasonality) is stationary (like a pure 'sine' curve). This is because cycles are not of fixed length, so before we observe the series we cannot be sure where the peaks and troughs of the cycles will be.
+      * Periodic v quasi periodic Data:
+        * Periodic Data:
+          * recurring at regular intervals (i.e. every 24 hrs)
+        * Quasiperiodic data:
+          * Quasiperiodicity is the property of a system that displays irregular periodicity.
+          * a pattern of recurrence with a component of unpredictability that does not lend itself to precise measurement
+          * This is a commen term in climatology, that can be used to describe El Nino, for example
+      * Gaussian v Non-Gaussian Processes:
+        * Gaussian Distribution is just a distribution characterized by a bell curve. See also: normal distribution
+        * Anything that doesn't have a normal distribution is non-gaussian
+    * What are dominant quasiperiodic bands?
+      * Nowak et al:
+        * quasiperiodic 'forcings' include climate and wet/dry epochs. Cycles that aren't apparent in the flow data itself, or without greater context.
+        * See also periodicities, and non-stationary features
+    * What do we mean by maps?
+
+  * Actions:
+    * Plot streamflow using a phase type approach (Can we plot scatter plot as a line plot?)
+
+  * Further Reading:
+    * Rajagopalan, B., & Lall, U. (1999). A nearest neighbor bootstrap resampling scheme for resampling daily precipitation and other weather variables. Water Resources Research, 35(10), 3089–3101. https://doi.org/10.1029/1999WR900028
+      * A review of parametric and nonparametric methods for hydrologic time series models
+    * Nowak, K., Rajagopalan, B., & Zagona, E. (2011). Wavelet Auto‐Regressive Method (WARM) for multi‐site streamflow simulation of data with non‐stationary spectra. - COMPLETE
+      * using wavelet spectra to capture nonstationarity
+      * Kwon et al 2007 - COMPLETE
+        * using wavelet spectra to model dominant periodicities
+    * Takens 1981
+      * A reconstructed phase space with appropriate dimensinos and time delay is a proxy for the true space within which the unknown dynamics of the system unforlds.
+
+16. A great reference for statistics: https://otexts.com/fpp2/stationarity.html
 
 ### Summary - Further Reading:
 * Further reading:
@@ -422,3 +682,4 @@ customization at this level in the code is not well supported by cuDNN.
   - Uncertainty Estimation
 
   * BackPropogation: http://neuralnetworksanddeeplearning.com/chap2.html
+  * An excellent Discussion on ML: https://machinelearningmastery.com/how-to-configure-the-number-of-layers-and-nodes-in-a-neural-network
